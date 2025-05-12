@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-catalogo-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './catalogo-page.component.html',
 })
 export class CatalogoPageComponent implements OnInit {
@@ -41,6 +42,7 @@ export class CatalogoPageComponent implements OnInit {
   obtenerCoches() {
     return [
       {
+        id: 1,
         marca: 'Mercedes-Benz',
         modelo: 'C63 AMG 507 Edition',
         combustible: 'Gasolina',
@@ -50,6 +52,7 @@ export class CatalogoPageComponent implements OnInit {
         imagen: 'https://mdgcarcenter.com/wp-content/uploads/2024/08/IMG_9134-2048x1536.jpg',
       },
       {
+        id: 2,
         marca: 'Volswagen',
         modelo: 'Golf GTI MK8',
         anio: 2021,
@@ -60,6 +63,7 @@ export class CatalogoPageComponent implements OnInit {
       },
     
       {
+        id: 3,
         marca: 'BMW',
         modelo: 'Serie 4 430dA',
         anio: 2016,
@@ -69,6 +73,7 @@ export class CatalogoPageComponent implements OnInit {
         imagen: 'https://mdgcarcenter.com/wp-content/uploads/2025/02/IMG_4928-2048x1536.jpg'
      },
      {
+        id: 4,
         marca: 'Honda',
         modelo: '	Civic Type R',
         anio: 2018,
@@ -78,6 +83,7 @@ export class CatalogoPageComponent implements OnInit {
         imagen: 'https://mdgcarcenter.com/wp-content/uploads/2025/04/WhatsApp-Image-2025-04-21-at-18.22.17.jpeg',
     },
     {
+      id: 5,
       marca: '	Hyundai',
       modelo: 'I30N',
       anio: 2019,

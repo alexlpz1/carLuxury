@@ -52,12 +52,16 @@
 
     <!-- Rejilla de coches -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-      <div *ngFor="let coche of coches" class="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition">
-        <img [src]="coche.imagen" [alt]="coche.modelo" class="w-full h-48 object-cover rounded">
-        <h2 class="mt-4 font-bold text-lg">{{ coche.marca }} {{ coche.modelo }}</h2>
-        <p class="text-yellow-400 text-lg">{{ coche.precio | currency:'EUR' }}</p>
-      </div>
-    </div>
+  <div *ngFor="let coche of coches" class="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition">
+    <!-- Enlace para redirigir al detalle del coche -->
+    <a [routerLink]="['/coche', coche.id]" class="block">
+      <img [src]="coche.imagen" [alt]="coche.modelo" class="w-full h-48 object-cover rounded">
+      <h2 class="mt-4 font-bold text-lg">{{ coche.marca }} {{ coche.modelo }}</h2>
+      <p class="text-yellow-400 text-lg">{{ coche.precio | currency:'EUR' }}</p>
+    </a>
+  </div>
+</div>
+
 
     <!-- Paginación -->
     <div class="mt-10 flex justify-center items-center space-x-4 text-yellow-400">

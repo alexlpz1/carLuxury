@@ -1,0 +1,8 @@
+<div class="text-center">
+    <h1 class="text-4xl font-bold text-yellow-400 mt-10 mb-5">COCHES EN STOCK</h1>
+  </div>
+  
+  <div class="mt-10 ml-10 flex flex-wrap gap-10 overflow-x-auto justify-center">
+    <app-car-card *ngFor="let coche of coches" [coche]="coche"></app-car-card>
+  </div>
+  

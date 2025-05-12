@@ -1,0 +1,165 @@
+<div class="a-la-carta-container">
+  <h1 class="title">PRESUPUESTOS</h1>
+  <div class="divider"></div>
+
+  <div class="description">
+    <p>
+      En esta sección os presentamos coches de importación a la carta, rellenando el formulario o poniéndote en contacto con nosotros por teléfono, vía e-mail o a través de nuestras redes sociales.
+    </p>
+    <p>
+      En un plazo de 24 horas recibiréis lo que más se adapte a vuestras peticiones. En nuestro
+      <a href="#catalogo" class="link">«catálogo a la carta»</a>, también os mostramos nuestro stock de coches para traer bajo pedido por si alguno entra dentro de vuestras expectativas.
+      Nos hacemos cargo de todo el proceso de importación para asegurarte que compras una unidad en perfecto estado.
+    </p>
+  </div>
+
+  <div class="divider-small"></div>
+
+  <form [formGroup]="importForm" (ngSubmit)="onSubmit()" class="import-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="nombre" class="required">Nombre</label>
+        <input 
+          id="nombre" 
+          type="text" 
+          formControlName="nombre" 
+          placeholder="Nombre"
+          [ngClass]="{'is-invalid': isInvalid('nombre')}"
+        />
+        <div *ngIf="isInvalid('nombre')" class="invalid-feedback">
+          El nombre es obligatorio
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="apellidos" class="required">Apellidos</label>
+        <input 
+          id="apellidos" 
+          type="text" 
+          formControlName="apellidos" 
+          placeholder="Apellidos"
+          [ngClass]="{'is-invalid': isInvalid('apellidos')}"
+        />
+        <div *ngIf="isInvalid('apellidos')" class="invalid-feedback">
+          Los apellidos son obligatorios
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email" class="required">Correo electrónico</label>
+        <input 
+          id="email" 
+          type="email" 
+          formControlName="email" 
+          placeholder="ejemplo@correo.com"
+          [ngClass]="{'is-invalid': isInvalid('email')}"
+        />
+        <div *ngIf="isInvalid('email')" class="invalid-feedback">
+          Introduce un correo electrónico válido
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="telefono" class="required">Teléfono</label>
+        <input 
+          id="telefono" 
+          type="tel" 
+          formControlName="telefono" 
+          placeholder="Ej. 612345678"
+          [ngClass]="{'is-invalid': isInvalid('telefono')}"
+        />
+        <div *ngIf="isInvalid('telefono')" class="invalid-feedback">
+          El teléfono es obligatorio
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="marca" class="required">Marca</label>
+        <select 
+          id="marca" 
+          formControlName="marca" 
+          [ngClass]="{'is-invalid': isInvalid('marca')}"
+        >
+          <option value="" disabled>Selecciona una marca</option>
+          <option *ngFor="let marca of marcas" [value]="marca">{{ marca }}</option>
+        </select>
+        <div *ngIf="isInvalid('marca')" class="invalid-feedback">
+          Selecciona una marca
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="modelo" class="required">Modelo</label>
+        <input 
+          id="modelo" 
+          type="text" 
+          formControlName="modelo" 
+          placeholder="Ej. Golf GTI"
+          maxlength="50"
+          [ngClass]="{'is-invalid': isInvalid('modelo')}"
+        />
+        <div class="character-count">
+          {{ f['modelo'].value?.length || 0 }} de 50 caracteres máximos.
+        </div>
+        <div *ngIf="isInvalid('modelo')" class="invalid-feedback">
+          El modelo es obligatorio
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="combustible" class="required">Combustible</label>
+        <select 
+          id="combustible" 
+          formControlName="combustible" 
+          [ngClass]="{'is-invalid': isInvalid('combustible')}"
+        >
+          <option value="" disabled>Selecciona un tipo</option>
+          <option *ngFor="let tipo of combustibles" [value]="tipo">{{ tipo }}</option>
+        </select>
+        <div *ngIf="isInvalid('combustible')" class="invalid-feedback">
+          Selecciona un tipo de combustible
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="kilometraje" class="required">Kilometraje</label>
+        <select 
+          id="kilometraje" 
+          formControlName="kilometraje" 
+          [ngClass]="{'is-invalid': isInvalid('kilometraje')}"
+        >
+          <option value="" disabled>Selecciona un rango</option>
+          <option *ngFor="let km of kilometrajes" [value]="km">{{ km }}</option>
+        </select>
+        <div *ngIf="isInvalid('kilometraje')" class="invalid-feedback">
+          Selecciona un kilometraje
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group full-width">
+      <label for="masInformacion">Más información</label>
+      <textarea 
+        id="masInformacion" 
+        formControlName="masInformacion" 
+        rows="4"
+        maxlength="2000"
+        placeholder="Especifica detalles sobre el coche que buscas"
+        [ngClass]="{'is-invalid': isInvalid('masInformacion')}"
+      ></textarea>
+      <div class="character-count">
+        {{ f['masInformacion'].value?.length || 0 }} de 2000 caracteres máximos.
+      </div>
+    </div>
+
+    <div class="form-actions" >
+      <button type="submit" class="btn-enviar">Enviar</button>
+    </div>
+  </form>
+</div>

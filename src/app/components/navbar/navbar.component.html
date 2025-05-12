@@ -1,0 +1,24 @@
+<div 
+  class="relative w-full h-[300px] bg-cover bg-center sm:h-[250px] md:h-[300px] lg:h-[350px]"
+  style="background-image: url('https://img1.wallspic.com/crops/5/1/7/6/2/126715/126715-coche_azul_en_el_rio_entre_arboles_durante_el_dia-3840x2160.jpg')"
+>
+  <!-- Icono con enlace a inicio, visible en todos los tamaños -->
+  <div class="absolute top-6 left-6 z-50 hidden md:block">
+    <a routerLink="/inicio">
+      <img 
+        src="https://mdgcarcenter.com/wp-content/uploads/2022/04/cropped-LogoMDG-01-768x315.png" 
+        alt="Icono" 
+        class="w-20 h-10 sm:w-16 sm:h-8 hover:scale-105 transition-transform"
+      />
+    </a>
+  </div>
+
+  <!-- Menú de navegación -->
+  <nav class="absolute top-0 left-0 w-full flex flex-wrap justify-center items-center space-x-10 text-white font-semibold text-lg z-50 py-4">
+    <a [routerLink]="['/inicio']" routerLinkActive="text-yellow-400" class="hover:text-yellow-400 transition">Inicio</a>
+    <a [routerLink]="['/catalogo']" routerLinkActive="text-yellow-400" [routerLinkActiveOptions]="{ exact: true }" class="text-yellow-400 hover:text-yellow-300 transition">Catálogo</a>
+    <a [routerLink]="['/quienes-somos']" routerLinkActive="text-yellow-400" class="hover:text-yellow-400 transition">Quienes Somos</a>
+    <a [routerLink]="['/presupuestos']" routerLinkActive="text-yellow-400" class="hover:text-yellow-400 transition">Presupuestos</a>
+    <a [routerLink]="['/ventas']" routerLinkActive="text-yellow-400" class="hover:text-yellow-400 transition">Ventas</a>
+  </nav>
+</div>

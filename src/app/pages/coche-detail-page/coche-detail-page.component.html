@@ -1,0 +1,144 @@
+<div class="text-center mt-12 px-4">
+  <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-yellow-500 mb-8">
+    Detalle del Coche
+  </h1>
+</div>
+
+<div *ngIf="coche" class="flex flex-col lg:flex-row bg-base-100 shadow-sm max-w-6xl mx-auto mb-20 px-4">
+  <figure class="flex-shrink-0 w-full lg:w-1/2">
+    <img
+      [src]="coche.imagen"
+      [alt]="coche.modelo"
+      class="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover cursor-pointer"
+      (click)="openImageModal(0)"
+    />
+  </figure>
+
+  <div class="card-body w-full lg:w-1/2 p-6">
+    <h2 class="card-title text-xl sm:text-2xl font-semibold text-yellow-500">{{ coche.modelo }}</h2>
+    <p class="text-base text-gray-700 mt-2">{{ coche.descripcion }}</p>
+
+    <div class="mt-4">
+      <h3 class="text-lg sm:text-xl font-semibold text-white-800">Descripción del coche:</h3>
+      <p class="text-gray-600 text-sm sm:text-base">{{ coche.extras.descripcionGeneral }}</p>
+    </div>
+
+    <div class="mt-4">
+      <h3 class="text-lg sm:text-xl font-semibold text-white-800">Equipamiento:</h3>
+      <ul class="list-disc pl-5 text-sm sm:text-base">
+        <li *ngFor="let item of coche.extras.equipamiento" class="text-gray-600">{{ item }}</li>
+      </ul>
+    </div>
+
+    <p class="text-xl font-bold text-yellow-400 mt-4">{{ coche.precio }}</p>
+
+    <div class="card-actions mt-4">
+      <button class="btn btn-primary w-full sm:w-auto">Más Información</button>
+    </div>
+  </div>
+</div>
+
+<!-- Miniaturas -->
+<div *ngIf="coche?.imagenes?.length > 1" class="flex justify-center gap-3 mt-4 flex-wrap px-4">
+  <img
+    *ngFor="let img of coche.imagenes; let i = index"
+    [src]="img"
+    class="w-20 h-20 object-cover cursor-pointer border-2"
+    [class.border-yellow-500]="i === currentImageIndex"
+    (click)="openImageModal(i)"
+  />
+</div>
+
+<!-- Modal Carrusel -->
+<div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
+  <div class="relative w-[90vw] h-[80vh] flex items-center justify-center">
+    <button (click)="prevImage()" class="absolute left-4 text-white text-4xl font-bold z-10">&#10094;</button>
+
+    <img
+      [src]="coche.imagenes[currentImageIndex]"
+      class="max-h-full max-w-full object-contain rounded shadow-lg"
+      alt="Coche"
+    />
+
+    <button (click)="nextImage()" class="absolute right-4 text-white text-4xl font-bold z-10">&#10095;</button>
+    <span class="absolute top-2 right-4 text-white text-2xl cursor-pointer" (click)="closeImageModal()">×</span>
+  </div>
+</div>
+
+<!-- Mensaje si no hay coche -->
+<div *ngIf="!coche" class="text-center mt-12 text-red-600 px-4">
+  <h2 class="text-2xl sm:text-3xl font-semibold">Coche no encontrado</h2>
+  <p class="text-lg mt-2">Lo sentimos, no pudimos encontrar el coche que buscas. Intenta otra vez.</p>
+</div>
+
+<!-- Para pantallas grandes: tabla tradicional -->
+<div class="hidden sm:block mt-10 mb-20 px-4 sm:px-6 max-w-6xl mx-auto">
+  <h3 class="text-2xl font-bold text-yellow-400 mb-4">Información Técnica</h3>
+  <div class="overflow-x-auto rounded-lg">
+    <table class="table-auto w-full text-left text-white bg-gray-800 shadow rounded-lg">
+      <thead class="bg-gray-700 text-yellow-300">
+        <tr>
+          <th class="px-4 py-2">Marca</th>
+          <th class="px-4 py-2">Modelo</th>
+          <th class="px-4 py-2">Año</th>
+          <th class="px-4 py-2">Kilometraje</th>
+          <th class="px-4 py-2">Combustible</th>
+          <th class="px-4 py-2">Transmisión</th>
+          <th class="px-4 py-2">Color</th>
+          <th class="px-4 py-2">CV</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="bg-gray-900">
+          <td class="px-4 py-3">{{ coche.marca.split(' ')[0] }}</td>
+          <td class="px-4 py-3">{{ coche.modelo }}</td>
+          <td class="px-4 py-3">{{ coche.edad }}</td>
+          <td class="px-4 py-3">{{ coche.kilometraje }}</td>
+          <td class="px-4 py-3">{{ coche.combustible }}</td>
+          <td class="px-4 py-3">{{ coche.trasmision }}</td>
+          <td class="px-4 py-3">{{ coche.color }}</td>
+          <td class="px-4 py-3">{{ coche.cv }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Para pantallas pequeñas: tarjetas en grid -->
+<div class="block sm:hidden mt-10 mb-20 px-4 max-w-4xl mx-auto">
+  <h3 class="text-2xl font-bold text-yellow-400 mb-4">Información Técnica</h3>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div class="bg-gray-800 text-white p-4 rounded shadow">
+      <p class="text-yellow-300 font-semibold">Marca</p>
+      <p>{{ coche.marca.split(' ')[0] }}</p>
+    </div>
+    <div class="bg-gray-800 text-white p-4 rounded shadow">
+      <p class="text-yellow-300 font-semibold">Modelo</p>
+      <p>{{ coche.modelo }}</p>
+    </div>
+    <div class="bg-gray-800 text-white p-4 rounded shadow">
+      <p class="text-yellow-300 font-semibold">Año</p>
+      <p>{{ coche.edad }}</p>
+    </div>
+    <div class="bg-gray-800 text-white p-4 rounded shadow">
+      <p class="text-yellow-300 font-semibold">Kilometraje</p>
+      <p>{{ coche.kilometraje }}</p>
+    </div>
+    <div class="bg-gray-800 text-white p-4 rounded shadow">
+      <p class="text-yellow-300 font-semibold">Combustible</p>
+      <p>{{ coche.combustible }}</p>
+    </div>
+    <div class="bg-gray-800 text-white p-4 rounded shadow">
+      <p class="text-yellow-300 font-semibold">Transmisión</p>
+      <p>{{ coche.trasmision }}</p>
+    </div>
+    <div class="bg-gray-800 text-white p-4 rounded shadow">
+      <p class="text-yellow-300 font-semibold">Color</p>
+      <p>{{ coche.color }}</p>
+    </div>
+    <div class="bg-gray-800 text-white p-4 rounded shadow">
+      <p class="text-yellow-300 font-semibold">CV</p>
+      <p>{{ coche.cv }}</p>
+    </div>
+  </div>
+</div>

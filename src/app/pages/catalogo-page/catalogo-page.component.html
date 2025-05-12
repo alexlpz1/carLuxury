@@ -1,0 +1,69 @@
+<!-- catologo.component.html -->
+<div class="bg-black min-h-screen text-white flex flex-col lg:flex-row">
+
+  <!-- Filtros laterales -->
+  <aside class="w-full lg:w-1/5 p-6 space-y-6 border-r border-gray-700">
+    <div>
+      <h2 class="text-xl font-bold text-yellow-400 mb-2">Marca</h2>
+      <div *ngFor="let marca of marcas">
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" [value]="marca" (change)="filtrar()" class="accent-yellow-500">
+          <span>{{ marca }}</span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-xl font-bold text-yellow-400 mb-2">Combustible</h2>
+      <label class="flex items-center space-x-2" *ngFor="let tipo of ['Diesel', 'Gasolina']">
+        <input type="checkbox" [value]="tipo" (change)="filtrar()" class="accent-yellow-500">
+        <span>{{ tipo }}</span>
+      </label>
+    </div>
+
+    <div>
+      <h2 class="text-xl font-bold text-yellow-400 mb-2">Kilometraje</h2>
+      <div *ngFor="let km of kilometrajeOptions">
+        <label class="flex items-center space-x-2">
+          <input type="radio" name="km" [value]="km" (change)="filtrar()" class="accent-yellow-500">
+          <span>{{ km }}</span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-xl font-bold text-yellow-400 mb-2">Año</h2>
+      <div *ngFor="let year of anios">
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" [value]="year" (change)="filtrar()" class="accent-yellow-500">
+          <span>{{ year }}</span>
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Catálogo de coches -->
+  <main class="flex-1 p-6">
+    <h1 class="text-4xl font-extrabold text-center text-yellow-400 mb-6">Catálogo</h1>
+    <p class="text-center text-white mb-10 max-w-3xl mx-auto">
+      En esta sección podrás encontrar nuestros coches en stock, una selección de coches bajo pedido que pueden adaptarse a tus necesidades. 
+      No hacemos cargo de todo el proceso de importación y puesta a punto para asegurarte una unidad en perfecto estado.
+    </p>
+
+    <!-- Rejilla de coches -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div *ngFor="let coche of coches" class="bg-gray-800 p-4 rounded shadow hover:shadow-lg transition">
+        <img [src]="coche.imagen" [alt]="coche.modelo" class="w-full h-48 object-cover rounded">
+        <h2 class="mt-4 font-bold text-lg">{{ coche.marca }} {{ coche.modelo }}</h2>
+        <p class="text-yellow-400 text-lg">{{ coche.precio | currency:'EUR' }}</p>
+      </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="mt-10 flex justify-center items-center space-x-4 text-yellow-400">
+      <button class="hover:underline" (click)="paginaAnterior()">«</button>
+      <span>Página {{ paginaActual }}</span>
+      <button class="hover:underline" (click)="paginaSiguiente()">»</button>
+    </div>
+  </main>
+</div>

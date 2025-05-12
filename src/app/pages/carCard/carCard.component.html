@@ -1,0 +1,20 @@
+<div 
+  class="card bg-gray-800 w-full sm:w-[300px] md:w-[350px] lg:w-[380px] xl:w-[400px] shadow-sm hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+  [routerLink]="['/coche', coche.id]"
+>
+  <figure>
+    <img 
+      [src]="coche.imagen" 
+      [alt]="coche.modelo" 
+      class="w-full h-48 md:h-52 lg:h-56 object-cover" 
+    />
+  </figure>
+  <div class="card-body text-white">
+    <h2 class="card-title text-base sm:text-lg md:text-xl">{{ coche.modelo }}</h2>
+    <h3 *ngIf="coche.descripcion" class="text-sm sm:text-base">{{ coche.descripcion }}</h3>
+    <h4 class="text-yellow-400 font-bold text-lg mt-2">{{ coche.precio }}</h4>
+    <div class="card-actions mt-4">
+      <button class="btn btn-secondary w-full">Más Información</button>
+    </div>
+  </div>
+</div>

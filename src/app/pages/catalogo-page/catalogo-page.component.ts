@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-catalogo-page',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './catalogo-page.component.html',
 })
 export class CatalogoPageComponent implements OnInit {
@@ -14,7 +15,7 @@ export class CatalogoPageComponent implements OnInit {
   coches: any[] = [];
   todosLosCoches: any[] = [];
 
-  marcas: string[] = ['Audi', 'BMW', 'Ford', 'Honda', 'Hyundai', 'Jaguar', 'Mercedes-Benz'];
+  marcas: string[] = ['Audi', 'BMW', 'Ford', 'Honda', 'Hyundai', 'Jaguar', 'Mercedes-Benz', 'Nissan', 'Peugeot', 'Renault', 'Seat', 'Skoda', 'Toyota', 'Volkswagen'];
   kilometrajeOptions: string[] = [
     '0 - 20.000 km',
     '20.000 - 50.000 km',
@@ -22,7 +23,7 @@ export class CatalogoPageComponent implements OnInit {
     '100.000 - 150.000 km',
     '+150.000 km'
   ];
-  anios: number[] = [2023, 2022, 2021, 2020, 2019, 2018, 2017];
+  anios: number[] = [2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010];
 
   filtros = {
     marcas: new Set<string>(),
@@ -53,7 +54,7 @@ export class CatalogoPageComponent implements OnInit {
       },
       {
         id: 2,
-        marca: 'Volswagen',
+        marca: 'Volkswagen',
         modelo: 'Golf GTI MK8',
         anio: 2021,
         combustible: 'Gasolina',
@@ -75,7 +76,7 @@ export class CatalogoPageComponent implements OnInit {
      {
         id: 4,
         marca: 'Honda',
-        modelo: '	Civic Type R',
+        modelo: 'Civic Type R',
         anio: 2018,
         combustible: 'Gasolina',
         kilometraje: 40500,
@@ -84,7 +85,7 @@ export class CatalogoPageComponent implements OnInit {
     },
     {
       id: 5,
-      marca: '	Hyundai',
+      marca: 'Hyundai',
       modelo: 'I30N',
       anio: 2019,
       combustible: 'Gasolina',
@@ -96,39 +97,43 @@ export class CatalogoPageComponent implements OnInit {
   }
 
   filtrar() {
-    const checkboxesMarca = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"][value][ng-reflect-model=null]');
-    const checkboxesCombustible = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"][value]:not([name="km"])');
-    const radioKilometraje = document.querySelector<HTMLInputElement>('input[type="radio"][name="km"]:checked');
-    const checkboxesAnios = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"][value]:not([name="km"])');
-
+    // Reset all filters
     this.filtros.marcas.clear();
     this.filtros.combustible.clear();
     this.filtros.anios.clear();
     this.filtros.kilometraje = '';
 
-    checkboxesMarca.forEach(cb => {
-      if (cb.checked && this.marcas.includes(cb.value)) {
-        this.filtros.marcas.add(cb.value);
+    // Get all brand checkboxes - fixing the selector
+    const marcaCheckboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+    
+    // Process each checkbox
+    marcaCheckboxes.forEach(checkbox => {
+      if (checkbox.checked) {
+        // Check if it's a brand checkbox (value is in the marcas array)
+        if (this.marcas.includes(checkbox.value)) {
+          this.filtros.marcas.add(checkbox.value);
+        }
+        // Check if it's a fuel type checkbox
+        else if (['Diesel', 'Gasolina'].includes(checkbox.value)) {
+          this.filtros.combustible.add(checkbox.value);
+        }
+        // Check if it's a year checkbox (value can be parsed to a number and is in the years array)
+        else {
+          const year = parseInt(checkbox.value);
+          if (!isNaN(year) && this.anios.includes(year)) {
+            this.filtros.anios.add(year);
+          }
+        }
       }
     });
 
-    checkboxesCombustible.forEach(cb => {
-      if (cb.checked && ['Diesel', 'Gasolina'].includes(cb.value)) {
-        this.filtros.combustible.add(cb.value);
-      }
-    });
-
+    // Process kilometraje radio buttons
+    const radioKilometraje = document.querySelector<HTMLInputElement>('input[type="radio"][name="km"]:checked');
     if (radioKilometraje) {
       this.filtros.kilometraje = radioKilometraje.value;
     }
 
-    checkboxesAnios.forEach(cb => {
-      const year = parseInt(cb.value);
-      if (cb.checked && !isNaN(year)) {
-        this.filtros.anios.add(year);
-      }
-    });
-
+    // Apply all filters
     this.cochesFiltrados = this.todosLosCoches.filter(coche => {
       const coincideMarca = this.filtros.marcas.size === 0 || this.filtros.marcas.has(coche.marca);
       const coincideCombustible = this.filtros.combustible.size === 0 || this.filtros.combustible.has(coche.combustible);
@@ -138,6 +143,7 @@ export class CatalogoPageComponent implements OnInit {
       return coincideMarca && coincideCombustible && coincideAnio && coincideKm;
     });
 
+    // Reset to first page after filtering
     this.paginaActual = 1;
     this.actualizarCochesPaginados();
   }
